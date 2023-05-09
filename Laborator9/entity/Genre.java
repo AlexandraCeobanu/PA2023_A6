@@ -2,42 +2,48 @@ package org.example.Laborator9.entity;
 
 //import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
 @Entity
-@Table(name = "artists")
+@Table(name = "genres")
 @NamedQueries({
-        @NamedQuery(name = "Artist.findById",
-                query = "select e from Artist e where e.id = :id"),
-        @NamedQuery(name = "Artist.findByName",
-                query = "select e from Artist e where e.name = :name"),
+        @NamedQuery(name = "Genre.findById",
+                query = "select e from Genre e where e.id = ?1"),
+        @NamedQuery(name = "Genre.findByName",
+                query = "select e from Genre e where e.name = ?1"),
 })
 
-public class Artist extends AbstractEntity  implements Serializable {
+public class Genre extends AbstractEntity  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Column(name = "name", nullable = false)
     private String name;
-    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Album> albums;
 
-    public Artist() {
+    @ManyToMany(mappedBy = "genres")
+    private List<Album> albums = new ArrayList<>();
+    public Genre() {
     }
 
-    public Artist(Integer id, String name)
+    public Genre(Integer id, String name)
     {
         this.id=id;
         this.name=name;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
     public void addAlbum(Album album)
     {
         albums.add(album);
-    }
-    public Integer getId() {
-        return id;
     }
 
     public void setId(Integer id) {
@@ -52,17 +58,9 @@ public class Artist extends AbstractEntity  implements Serializable {
         this.name = name;
     }
 
-    public List<Album> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }
-
     @Override
     public String toString() {
-        return "Artist{" +
+        return "Genre{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

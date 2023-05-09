@@ -5,15 +5,14 @@ import org.example.Laborator9.entity.Album;
 import org.example.Laborator9.entity.Artist;
 
 import jakarta.persistence.EntityManager;
+import org.example.Laborator9.entity.Genre;
 
-/**
- * A DTO for the {@link Artist} entity
- */
-public class ArtistRepository extends AbstractRepository<Artist, Integer> {
+
+public class GenreRepository  extends AbstractRepository<Genre, Integer> {
     private final Integer id;
     private final String name;
 
-    public ArtistRepository(Integer id, String name) {
+    public GenreRepository(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -28,14 +27,14 @@ public class ArtistRepository extends AbstractRepository<Artist, Integer> {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamplePU");
     EntityManager em = emf.createEntityManager();
-    public Artist findByName(String name) {
-        return (Artist) em.createNamedQuery("Artist.findByName")
+    public Genre findByName(String name) {
+        return (Genre) em.createNamedQuery("Genre.findByName")
                 .setParameter("name",name )
                 .getSingleResult();
     }
-    public Artist findById(Integer id) {
-        return (Artist) em.createNamedQuery("Artist.findById")
-                .setParameter("id",id )
+    public Genre findById(Integer id) {
+        return (Genre) em.createNamedQuery("Genre.findById")
+                .setParameter("name",id )
                 .getSingleResult();
     }
    /* public void create (Artist artist)
@@ -44,4 +43,3 @@ public class ArtistRepository extends AbstractRepository<Artist, Integer> {
         em.getTransaction().commit();
     }*/
 }
-
